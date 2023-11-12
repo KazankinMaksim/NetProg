@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	selfAddr -> sin_addr.s_addr = INADDR_ANY;   // любой IP
 
 	char *buffer = new char[256];
-	int msgLen = 256;      //максимальный размер пакета
+	int msgLen = 256;      //максимальный размер пакета 
 
 	int mySocket = socket(AF_INET, SOCK_DGRAM, 0); //udp протокол
 	if (mySocket == -1) {
