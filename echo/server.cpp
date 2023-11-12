@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <errno.h>
-#include <string.h>
+#include <cstring>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <iostream>
