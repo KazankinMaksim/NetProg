@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <cstdlib> //exit()
-#include <cstring> // strpy()
 #include <unistd.h> //close()
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -60,10 +59,10 @@ int main(int argc, char *argv[])
 	char time_str[256];
 
 	// Форматируем время как полную дату и время на русском языке.
-	strftime(time_str, sizeof(time_str), "%A %d %B %Y %T \n", ltm);
+	strftime(time_str, sizeof(time_str), "%A %d %B %Y %T", ltm);
 
 	string data(time_str); // преобразуем время в строку
-
+	data += "\n";
     rc = sendto(mySocket, data.c_str(), data.size(), 0, (struct sockaddr *)&remaddr, addrlen); // отправляем ответ
     if (rc == -1) {
         close(mySocket);
