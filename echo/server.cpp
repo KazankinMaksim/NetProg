@@ -45,44 +45,42 @@ int main(int argc, char *argv[])
        exit(-1);
  }
 
- while (true)
- {
-   sockaddr_in client; // структура для адреса клиента
-   len=sizeof(sockaddr_in);
-	 
-   int client_fd;
-   if ((client_fd=accept(sock_fd, (sockaddr*) &client, (socklen_t*) &len) )==-1)
-   {
-	perror("accept:");
-	exit(-1);
-   }
-   
-   char clientInput[100]="";
-   
-   while (strcmp(clientInput, "exit")!=0)
-   {
-   	memset(clientInput, 0, sizeof(clientInput)); // Очистка буфера перед чтением данных
-     int bytes_recv= recv(client_fd, clientInput, 100, 0);
-     if (bytes_recv==-1)
-     {
-        perror("recv");
-        break;
-     }
- 
-     cout<<"Данные, полученные от клиента ("<<inet_ntoa(client.sin_addr)<<"):  "<<clientInput<<endl<<endl;
-     
-     int bytes_sent=send(client_fd, clientInput,  strlen(clientInput)+1, 0);
-     if (bytes_sent==-1)
-     {
-        perror("send");
-        break;
-     }
+while (true)
+{
+  sockaddr_in client; // структура для адреса клиента
+  len=sizeof(sockaddr_in);
+  
+  int client_fd;
+  if ((client_fd=accept(sock_fd, (sockaddr*) &client, (socklen_t*) &len) )==-1)
+  {
+    perror("accept:");
+    exit(-1);
+  }
+  
+  char clientInput[100]="";
+  
+  int bytes_recv;
+  while ((bytes_recv = recv(client_fd, clientInput, 100, 0)) > 0)
+  {
+    cout<<"Данные, полученные от клиента ("<<inet_ntoa(client.sin_addr)<<"):  "<<clientInput<<endl<<endl;
+    
+    int bytes_sent=send(client_fd, clientInput,  strlen(clientInput)+1, 0);
+    if (bytes_sent==-1)
+    {
+      perror("send");
+      break;
+    }
 
-   }
+    memset(clientInput, 0, sizeof(clientInput)); // Очистка буфера перед чтением данных
+  }
+  
+  if (bytes_recv == -1)
+  {
+    perror("recv");
+  }
   
   cout<<"Клиент ("<<inet_ntoa(client.sin_addr)<<") отключен."<<endl<<endl;
   close(client_fd);
-
- }
+}
 
 }
