@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     rc = recvfrom(mySocket, buffer, msgLen, 0, (struct sockaddr *)&remaddr, &addrlen);
     if (rc == -1) {
         close(mySocket);
-        errHanding("Сообщение о получении ошибки",4);
+        errHanding("Ошибка с получением данных от клиента",4);
     }
     buffer[rc] = '\0'; // конец принятой строки
     cout << "Пользователь подключился. Мы получили: " << buffer << endl; // вывод полученного сообщения от клиента
